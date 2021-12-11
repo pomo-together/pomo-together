@@ -7,8 +7,7 @@ import pomo.joowan.pomotogether.timer.exceptions.TimerIsNotWorkingException;
 import pomo.joowan.pomotogether.timer.utils.Clock;
 import pomo.joowan.pomotogether.timer.utils.JavaClock;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @Nested
 @DisplayName("Timer class의")
@@ -26,7 +25,7 @@ class DescribeTimer {
     class DescribeStart {
 
         @Nested
-        @DisplayName("타이머가 멈춰있을 때")
+        @DisplayName("타이머가 멈춘 상태일 때")
         class ContextWhenTimerIsStopped {
             @BeforeEach
             void setUpTimer() {
@@ -126,7 +125,7 @@ class DescribeTimer {
         }
 
         @Nested
-        @DisplayName("타이머가 멈춰있을 때")
+        @DisplayName("타이머가 멈춘 상태일 때")
         class ContextWhenTimerIsStopped {
             @BeforeEach
             void setUpTimer() {
@@ -165,7 +164,7 @@ class DescribeTimer {
     class DescribeResume {
 
         @Nested
-        @DisplayName("타이머가 멈춰있을 때")
+        @DisplayName("타이머가 멈춘 상태일 때")
         class ContextWhenTimerIsStopped {
             @BeforeEach
             void setUpTimer() {
@@ -219,6 +218,104 @@ class DescribeTimer {
             void ItThrowsTimerIsNotPausedException() {
                 assertThatThrownBy(() -> timer.resume())
                         .isInstanceOf(TimerIsNotPausedException.class);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("reset 메소드는")
+    class DescribeReset {
+
+        @Nested
+        @DisplayName("타이머가 동작중일 때")
+        class ContextWhenTimerIsWorking {
+            @BeforeEach
+            void startTimer() {
+                timer = new Timer(clock);
+                timer.start();
+            }
+
+            @Test
+            @DisplayName("타이머의 시작시각을 0으로 수정한다")
+            void ItUpdatesStartTimeOfTimerAsZero() {
+                timer.reset();
+                assertThat(timer.getStartTime()).isEqualTo(0);
+            }
+
+            @Test
+            @DisplayName("타이머의 경과시간을 0으로 수정한다")
+            void ItUpdatesElapsedSecondsAsZero() {
+                timer.reset();
+                assertThat(timer.getElapsedSeconds()).isEqualTo(0);
+            }
+
+            @Test
+            @DisplayName("타이머의 상태를 Stopped로 수정한다")
+            void ItUpdatesStateOfTimerAsStopped() {
+                timer.reset();
+                assertThat(timer.getState()).isEqualTo(TimerState.STOPPED);
+            }
+        }
+
+        @Nested
+        @DisplayName("타이머가 멈춘 상태일 때")
+        class ContextWhenTimerIsStopped {
+            @BeforeEach
+            void setUpTimer() {
+                timer = new Timer(clock);
+            }
+
+            @Test
+            @DisplayName("타이머의 시작시각을 0으로 수정한다")
+            void ItUpdatesStartTimeOfTimerAsZero() {
+                timer.reset();
+                assertThat(timer.getStartTime()).isEqualTo(0);
+            }
+
+            @Test
+            @DisplayName("타이머의 경과시간을 0으로 수정한다")
+            void ItUpdatesElapsedSecondsAsZero() {
+                timer.reset();
+                assertThat(timer.getElapsedSeconds()).isEqualTo(0);
+            }
+
+            @Test
+            @DisplayName("타이머의 상태를 Stopped로 수정한다")
+            void ItUpdatesStateOfTimerAsStopped() {
+                timer.reset();
+                assertThat(timer.getState()).isEqualTo(TimerState.STOPPED);
+            }
+        }
+
+        @Nested
+        @DisplayName("타이머가 일시정지 상태일 때")
+        class ContextWhenTimerIsPaused {
+            @BeforeEach
+            void pauseTimer() {
+                timer = new Timer(clock);
+                timer.start();
+                timer.pause();
+            }
+
+            @Test
+            @DisplayName("타이머의 시작시각을 0으로 수정한다")
+            void ItUpdatesStartTimeOfTimerAsZero() {
+                timer.reset();
+                assertThat(timer.getStartTime()).isEqualTo(0);
+            }
+
+            @Test
+            @DisplayName("타이머의 경과시간을 0으로 수정한다")
+            void ItUpdatesElapsedSecondsAsZero() {
+                timer.reset();
+                assertThat(timer.getElapsedSeconds()).isEqualTo(0);
+            }
+
+            @Test
+            @DisplayName("타이머의 상태를 Stopped로 수정한다")
+            void ItUpdatesStateOfTimerAsStopped() {
+                timer.reset();
+                assertThat(timer.getState()).isEqualTo(TimerState.STOPPED);
             }
         }
     }

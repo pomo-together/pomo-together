@@ -23,6 +23,10 @@ public class Timer {
         return this.startTime;
     }
 
+    public long getElapsedSeconds() {
+        return this.elapsedSeconds;
+    }
+
     public TimerState getState() {
         return this.state;
     }
@@ -53,6 +57,8 @@ public class Timer {
     }
 
     public void reset() {
-
+        this.startTime = 0;
+        this.elapsedSeconds = 0;
+        this.state = TimerState.STOPPED;
     }
 }
