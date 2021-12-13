@@ -1,4 +1,4 @@
-package pomo.joowan.pomotogether.timer.domain;
+package pomo.joowan.pomotogether.flow.intervals.domain;
 
 public enum TimerState {
     STOPPED, WORKING, PAUSED

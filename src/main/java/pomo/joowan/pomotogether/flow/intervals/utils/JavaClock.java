@@ -1,4 +1,4 @@
-package pomo.joowan.pomotogether.timer.utils;
+package pomo.joowan.pomotogether.flow.intervals.utils;
 
 public class JavaClock extends Clock{
     @Override

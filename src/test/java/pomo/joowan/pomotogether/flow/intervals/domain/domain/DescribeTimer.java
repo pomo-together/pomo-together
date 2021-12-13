@@ -1,11 +1,13 @@
-package pomo.joowan.pomotogether.timer.domain;
+package pomo.joowan.pomotogether.flow.intervals.domain.domain;
 
 import org.junit.jupiter.api.*;
-import pomo.joowan.pomotogether.timer.exceptions.TimerIsNotPausedException;
-import pomo.joowan.pomotogether.timer.exceptions.TimerIsNotStoppedException;
-import pomo.joowan.pomotogether.timer.exceptions.TimerIsNotWorkingException;
-import pomo.joowan.pomotogether.timer.utils.Clock;
-import pomo.joowan.pomotogether.timer.utils.JavaClock;
+import pomo.joowan.pomotogether.flow.intervals.domain.Timer;
+import pomo.joowan.pomotogether.flow.intervals.domain.TimerState;
+import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotPausedException;
+import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotStoppedException;
+import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotWorkingException;
+import pomo.joowan.pomotogether.flow.intervals.utils.Clock;
+import pomo.joowan.pomotogether.flow.intervals.utils.JavaClock;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -246,7 +248,7 @@ class DescribeTimer {
             @DisplayName("타이머의 경과시간을 0으로 수정한다")
             void ItUpdatesElapsedSecondsAsZero() {
                 timer.reset();
-                assertThat(timer.getElapsedSeconds()).isEqualTo(0);
+                assertThat(timer.getElapsedMilliSeconds()).isEqualTo(0);
             }
 
             @Test
@@ -276,7 +278,7 @@ class DescribeTimer {
             @DisplayName("타이머의 경과시간을 0으로 수정한다")
             void ItUpdatesElapsedSecondsAsZero() {
                 timer.reset();
-                assertThat(timer.getElapsedSeconds()).isEqualTo(0);
+                assertThat(timer.getElapsedMilliSeconds()).isEqualTo(0);
             }
 
             @Test
@@ -308,7 +310,7 @@ class DescribeTimer {
             @DisplayName("타이머의 경과시간을 0으로 수정한다")
             void ItUpdatesElapsedSecondsAsZero() {
                 timer.reset();
-                assertThat(timer.getElapsedSeconds()).isEqualTo(0);
+                assertThat(timer.getElapsedMilliSeconds()).isEqualTo(0);
             }
 
             @Test
