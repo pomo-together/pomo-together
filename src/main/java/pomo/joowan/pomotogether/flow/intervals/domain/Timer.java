@@ -1,21 +1,21 @@
-package pomo.joowan.pomotogether.timer.domain;
+package pomo.joowan.pomotogether.flow.intervals.domain;
 
-import pomo.joowan.pomotogether.timer.exceptions.TimerIsNotPausedException;
-import pomo.joowan.pomotogether.timer.exceptions.TimerIsNotStoppedException;
-import pomo.joowan.pomotogether.timer.exceptions.TimerIsNotWorkingException;
-import pomo.joowan.pomotogether.timer.utils.Clock;
+import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotPausedException;
+import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotStoppedException;
+import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotWorkingException;
+import pomo.joowan.pomotogether.flow.intervals.utils.Clock;
 
 public class Timer {
     private final Clock clock;
 
     private long startTime;
-    private long elapsedSeconds;
+    private long elapsedMilliSeconds;
     private TimerState state;
 
     public Timer(Clock clock) {
         this.clock = clock;
         this.startTime = 0;
-        this.elapsedSeconds = 0;
+        this.elapsedMilliSeconds = 0;
         this.state = TimerState.STOPPED;
     }
 
@@ -23,8 +23,8 @@ public class Timer {
         return this.startTime;
     }
 
-    public long getElapsedSeconds() {
-        return this.elapsedSeconds;
+    public long getElapsedMilliSeconds() {
+        return this.elapsedMilliSeconds;
     }
 
     public TimerState getState() {
@@ -43,7 +43,7 @@ public class Timer {
         if (this.state != TimerState.WORKING) {
             throw new TimerIsNotWorkingException();
         }
-        this.elapsedSeconds = this.clock.current() - this.startTime;
+        this.elapsedMilliSeconds = this.clock.current() - this.startTime;
         this.startTime = 0;
         this.state = TimerState.PAUSED;
     }
@@ -58,7 +58,7 @@ public class Timer {
 
     public void reset() {
         this.startTime = 0;
-        this.elapsedSeconds = 0;
+        this.elapsedMilliSeconds = 0;
         this.state = TimerState.STOPPED;
     }
 }
