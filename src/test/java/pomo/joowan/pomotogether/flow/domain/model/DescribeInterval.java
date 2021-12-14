@@ -1,15 +1,13 @@
-package pomo.joowan.pomotogether.flow.intervals.domain.domain;
+package pomo.joowan.pomotogether.flow.domain.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import pomo.joowan.pomotogether.flow.intervals.domain.Interval;
-import pomo.joowan.pomotogether.flow.intervals.utils.Clock;
-import pomo.joowan.pomotogether.flow.intervals.utils.JavaClock;
+import pomo.joowan.pomotogether.flow.utils.Clock;
+import pomo.joowan.pomotogether.flow.utils.JavaClock;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Nested
 @DisplayName("Interval class의")
@@ -20,9 +18,11 @@ class DescribeInterval {
 
     @BeforeEach
     void setUpInterval() {
+        final long FLOW_ID = 1;
+        final int order = 1;
         String INTERVAL_NAME = "test";
         clock = new JavaClock();
-        interval = new Interval(INTERVAL_TIME_LIMIT_MILLI_SECONDS, INTERVAL_NAME, clock);
+        interval = new Interval(FLOW_ID, INTERVAL_TIME_LIMIT_MILLI_SECONDS, order, INTERVAL_NAME, clock);
     }
 
     @Nested
@@ -55,7 +55,7 @@ class DescribeInterval {
             }
 
             @Test
-            @DisplayName("True를 반환한다")
+            @DisplayName("true를 반환한다")
             void ItReturnsTrue() {
                 assertThat(interval.isOver(intervalStartTime)).isEqualTo(true);
             }
@@ -71,7 +71,7 @@ class DescribeInterval {
             }
 
             @Test
-            @DisplayName("True를 반환한다")
+            @DisplayName("true를 반환한다")
             void ItReturnsTrue() {
                 assertThat(interval.isOver(intervalStartTime)).isEqualTo(true);
             }
