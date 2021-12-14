@@ -1,9 +1,9 @@
-package pomo.joowan.pomotogether.flow.intervals.domain;
+package pomo.joowan.pomotogether.flow.domain.model;
 
-import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotPausedException;
-import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotStoppedException;
-import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotWorkingException;
-import pomo.joowan.pomotogether.flow.intervals.utils.Clock;
+import pomo.joowan.pomotogether.flow.exceptions.TimerIsNotPausedException;
+import pomo.joowan.pomotogether.flow.exceptions.TimerIsNotStoppedException;
+import pomo.joowan.pomotogether.flow.exceptions.TimerIsNotWorkingException;
+import pomo.joowan.pomotogether.flow.utils.Clock;
 
 public class Timer {
     private final Clock clock;

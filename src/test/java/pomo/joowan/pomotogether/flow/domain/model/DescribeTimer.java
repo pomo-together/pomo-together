@@ -1,13 +1,11 @@
-package pomo.joowan.pomotogether.flow.intervals.domain.domain;
+package pomo.joowan.pomotogether.flow.domain.model;
 
 import org.junit.jupiter.api.*;
-import pomo.joowan.pomotogether.flow.intervals.domain.Timer;
-import pomo.joowan.pomotogether.flow.intervals.domain.TimerState;
-import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotPausedException;
-import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotStoppedException;
-import pomo.joowan.pomotogether.flow.intervals.exceptions.TimerIsNotWorkingException;
-import pomo.joowan.pomotogether.flow.intervals.utils.Clock;
-import pomo.joowan.pomotogether.flow.intervals.utils.JavaClock;
+import pomo.joowan.pomotogether.flow.exceptions.TimerIsNotPausedException;
+import pomo.joowan.pomotogether.flow.exceptions.TimerIsNotStoppedException;
+import pomo.joowan.pomotogether.flow.exceptions.TimerIsNotWorkingException;
+import pomo.joowan.pomotogether.flow.utils.Clock;
+import pomo.joowan.pomotogether.flow.utils.JavaClock;
 
 import static org.assertj.core.api.Assertions.*;
 

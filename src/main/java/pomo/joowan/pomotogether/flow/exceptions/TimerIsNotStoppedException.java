@@ -1,4 +1,4 @@
-package pomo.joowan.pomotogether.flow.intervals.exceptions;
+package pomo.joowan.pomotogether.flow.exceptions;
 
 public class TimerIsNotStoppedException extends RuntimeException{
 }
