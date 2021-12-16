@@ -1,4 +1,4 @@
-package pomo.joowan.pomotogether.pomosession.domain;
+package pomo.joowan.pomotogether.pomosession.domain.pomosession;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Nested
-@DisplayName("PomoSession class의")
-public class DescribePomoSession {
+@DisplayName("PomoSession 클래스의")
+public class DescribePomoSessionStart {
+    private final long SECOND_PER_MINUTE = 60;
+
     private PomoSession pomoSession;
     private Clock clock;
 
@@ -38,26 +40,33 @@ public class DescribePomoSession {
         }
 
         @Nested
-        @DisplayName("session state가 정지 상태일 때")
+        @DisplayName("세션의 상태가 정지 상태일 때")
         public class ContextWhenSessionStateIsStopped {
 
             @Test
-            @DisplayName("시작 시각을 주어진 startTimeSeconds로 수정한다")
+            @DisplayName("제한시간을 주어진 분 단위 제한시간을 초 단위로 변환한 값으로 수정한다")
+            void ItUpdatesLimitSecondsAsGiven() {
+                pomoSession.start(startTimeSeconds, limitMinutes);
+                long limitSeconds = limitMinutes * SECOND_PER_MINUTE;
+                assertThat(pomoSession.getLimitSeconds()).isEqualTo(limitSeconds);
+            }
+
+            @Test
+            @DisplayName("경과 시간을 0으로 수정한다")
+            void ItUpdatesElapsedTimeAsZero() {
+                pomoSession.start(startTimeSeconds, limitMinutes);
+                assertThat(pomoSession.getElapsedSeconds()).isEqualTo(0);
+            }
+
+            @Test
+            @DisplayName("시작 시각을 주어진 시간으로 수정한다")
             void ItUpdatesStartTimeSecondsAsGiven() {
                 pomoSession.start(startTimeSeconds, limitMinutes);
                 assertThat(pomoSession.getStartTimeSeconds()).isEqualTo(startTimeSeconds);
             }
 
             @Test
-            @DisplayName("제한시간을 주어진 limitMinutes를 초 단위로 변환한 값으로 수정한다")
-            void ItUpdatesLimitSecondsAsGiven() {
-                pomoSession.start(startTimeSeconds, limitMinutes);
-                long limitSeconds = limitMinutes * 60;
-                assertThat(pomoSession.getLimitSeconds()).isEqualTo(limitSeconds);
-            }
-
-            @Test
-            @DisplayName("session state를 WOKRING으로 수정한다")
+            @DisplayName("세션의 상태를 동작 중으로 수정한다")
             void ItUpdatesSessionStateAsWorking() {
                 pomoSession.start(startTimeSeconds, limitMinutes);
                 assertThat(pomoSession.getSessionState()).isEqualTo(SessionState.WORKING);
@@ -65,7 +74,7 @@ public class DescribePomoSession {
         }
 
         @Nested
-        @DisplayName("session state가 동작 상태일 때")
+        @DisplayName("세션의 상태가 동작 상태일 때")
         public class ContextWhenSessionStateIsWorking {
 
             @BeforeEach
@@ -82,7 +91,7 @@ public class DescribePomoSession {
         }
 
         @Nested
-        @DisplayName("session state가 일시정지 상태일 때")
+        @DisplayName("세션의 상태가 일시정지 상태일 때")
         public class ContextWhenSessionStateIsPaused {
 
 //            @BeforeEach
@@ -91,6 +100,12 @@ public class DescribePomoSession {
 //                pomoSession.paused();
 //            }
 
+//            @Test
+//            @DisplayName("InvalidPomoSessionStateException을 던진다")
+//            void ItThrowsInvalidPomoSessionStateException() {
+//                assertThatThrownBy(() -> pomoSession.start(startTimeSeconds, limitMinutes))
+//                        .isInstanceOf(InvalidPomoSessionStateException.class);
+//            }
         }
     }
 }
