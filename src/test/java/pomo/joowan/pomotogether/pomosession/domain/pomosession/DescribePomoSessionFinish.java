@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Nested
 @DisplayName("PomoSession 클래스의")
-public class DescribePomoSessionFinish {
+class DescribePomoSessionFinish {
     private final long NORMAL_WORK_TIME_MINUTES = 25;
     private final long SECONDS_PER_MINUTE = 60;
     private final long DELTA_MINUTES = 10;
@@ -33,7 +33,7 @@ public class DescribePomoSessionFinish {
 
     @Nested
     @DisplayName("finish 메소드는")
-    public class DescribeFinish {
+    class DescribeFinish {
         private long startTimeSeconds;
         private long limitMinutes;
         private long endTimeSeconds;
@@ -47,7 +47,7 @@ public class DescribePomoSessionFinish {
 
         @Nested
         @DisplayName("세션의 상태가 정지 상태일 때")
-        public class ContextWhenSessionStateIsStopped {
+        class ContextWhenSessionStateIsStopped {
 
             @Test
             @DisplayName("InvalidPomoSessionStateException을 던진다")
@@ -59,7 +59,7 @@ public class DescribePomoSessionFinish {
 
         @Nested
         @DisplayName("세션의 상태가 동작 상태일 때")
-        public class ContextWhenSessionStateIsWorking {
+        class ContextWhenSessionStateIsWorking {
 
             @BeforeEach
             void setUpWorkingState() {
@@ -115,7 +115,7 @@ public class DescribePomoSessionFinish {
 
             @Nested
             @DisplayName("동작한 시간이 제한 시간을 넘기지 못했을 때")
-            public class ContextWhenElapsedTimeIsNotOverLimitTime {
+            class ContextWhenElapsedTimeIsNotOverLimitTime {
 
                 @BeforeEach
                 void setUpEndTimeSeconds() {
@@ -135,7 +135,7 @@ public class DescribePomoSessionFinish {
 
         @Nested
         @DisplayName("세션의 상태가 일시정지 상태일 때")
-        public class ContextWhenSessionStateIsPaused {
+        class ContextWhenSessionStateIsPaused {
 
 //            @BeforeEach
 //            void setUpPausedState() {
