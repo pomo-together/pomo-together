@@ -44,6 +44,7 @@ public class PomoSession {
         if (this.sessionState != SessionState.STOPPED) {
             throw new InvalidPomoSessionStateException();
         }
+
         this.startTimeSeconds = startTimeSeconds;
         this.elapsedSeconds = 0;
         this.limitSeconds = limitMinutes * SECONDS_PER_MINUTE;
@@ -54,11 +55,26 @@ public class PomoSession {
         if (this.sessionState != SessionState.WORKING) {
             throw new InvalidPomoSessionStateException();
         }
-        this.elapsedSeconds = endTimeSeconds - this.startTimeSeconds;
+
+        this.elapsedSeconds += endTimeSeconds - this.startTimeSeconds;
         if (this.elapsedSeconds < this.limitSeconds) {
             throw new NotEnoughElapsedTimeException();
         }
+
         this.sessionType = (this.sessionType == SessionType.WORK) ? SessionType.BREAK : SessionType.WORK;
         this.sessionState = SessionState.STOPPED;
+    }
+
+    public void pause(long currentTimeSeconds) {
+        if (this.sessionState != SessionState.WORKING) {
+            throw new InvalidPomoSessionStateException();
+        }
+
+        this.elapsedSeconds += currentTimeSeconds - this.startTimeSeconds;
+        this.sessionState = SessionState.PAUSED;
+    }
+
+    public void resume(long currentTimeSeconds) {
+
     }
 }

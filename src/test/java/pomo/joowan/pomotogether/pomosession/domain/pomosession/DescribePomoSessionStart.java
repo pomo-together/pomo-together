@@ -15,8 +15,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Nested
 @DisplayName("PomoSession 클래스의")
-public class DescribePomoSessionStart {
-    private final long SECOND_PER_MINUTE = 60;
+class DescribePomoSessionStart {
+    private final long SECONDS_PER_MINUTE = 60;
+    private final long NORMAL_WORK_TIME_MINUTES = 25;
+    private final long DELTA_MINUTES = 10;
 
     private PomoSession pomoSession;
     private Clock clock;
@@ -29,25 +31,25 @@ public class DescribePomoSessionStart {
 
     @Nested
     @DisplayName("start 메소드는")
-    public class DescribeStart {
+    class DescribeStart {
         private long startTimeSeconds;
         private long limitMinutes;
 
         @BeforeEach
         void setUpStartInfo() {
             startTimeSeconds = clock.currentTimeSeconds();
-            limitMinutes = 25;
+            limitMinutes = NORMAL_WORK_TIME_MINUTES;
         }
 
         @Nested
         @DisplayName("세션의 상태가 정지 상태일 때")
-        public class ContextWhenSessionStateIsStopped {
+        class ContextWhenSessionStateIsStopped {
 
             @Test
             @DisplayName("제한시간을 주어진 분 단위 제한시간을 초 단위로 변환한 값으로 수정한다")
             void ItUpdatesLimitSecondsAsGiven() {
                 pomoSession.start(startTimeSeconds, limitMinutes);
-                long limitSeconds = limitMinutes * SECOND_PER_MINUTE;
+                long limitSeconds = limitMinutes * SECONDS_PER_MINUTE;
                 assertThat(pomoSession.getLimitSeconds()).isEqualTo(limitSeconds);
             }
 
@@ -75,7 +77,7 @@ public class DescribePomoSessionStart {
 
         @Nested
         @DisplayName("세션의 상태가 동작 상태일 때")
-        public class ContextWhenSessionStateIsWorking {
+        class ContextWhenSessionStateIsWorking {
 
             @BeforeEach
             void setUpWorkingState() {
@@ -92,20 +94,22 @@ public class DescribePomoSessionStart {
 
         @Nested
         @DisplayName("세션의 상태가 일시정지 상태일 때")
-        public class ContextWhenSessionStateIsPaused {
+        class ContextWhenSessionStateIsPaused {
+            private long currentTimeSeconds;
 
-//            @BeforeEach
-//            void setUpPausedState() {
-//                pomoSession.start();
-//                pomoSession.paused();
-//            }
+            @BeforeEach
+            void setUpPausedState() {
+                currentTimeSeconds = startTimeSeconds + DELTA_MINUTES * SECONDS_PER_MINUTE;
+                pomoSession.start(startTimeSeconds, limitMinutes);
+                pomoSession.pause(currentTimeSeconds);
+            }
 
-//            @Test
-//            @DisplayName("InvalidPomoSessionStateException을 던진다")
-//            void ItThrowsInvalidPomoSessionStateException() {
-//                assertThatThrownBy(() -> pomoSession.start(startTimeSeconds, limitMinutes))
-//                        .isInstanceOf(InvalidPomoSessionStateException.class);
-//            }
+            @Test
+            @DisplayName("InvalidPomoSessionStateException을 던진다")
+            void ItThrowsInvalidPomoSessionStateException() {
+                assertThatThrownBy(() -> pomoSession.pause(currentTimeSeconds))
+                        .isInstanceOf(InvalidPomoSessionStateException.class);
+            }
         }
     }
 }
