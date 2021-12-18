@@ -136,19 +136,21 @@ class DescribePomoSessionFinish {
         @Nested
         @DisplayName("세션의 상태가 일시정지 상태일 때")
         class ContextWhenSessionStateIsPaused {
+            private long currentTimeSeconds;
 
-//            @BeforeEach
-//            void setUpPausedState() {
-//                pomoSession.start();
-//                pomoSession.paused();
-//            }
+            @BeforeEach
+            void setUpPausedState() {
+                currentTimeSeconds = startTimeSeconds + DELTA_MINUTES * SECONDS_PER_MINUTE;
+                pomoSession.start(startTimeSeconds, limitMinutes);
+                pomoSession.pause(currentTimeSeconds);
+            }
 
-//            @Test
-//            @DisplayName("InvalidPomoSessionStateException을 던진다")
-//            void ItThrowsInvalidPomoSessionStateException() {
-//                assertThatThrownBy(() -> pomoSession.finish(endTimeSeconds))
-//                        .isInstanceOf(InvalidPomoSessionStateException.class);
-//            }
+            @Test
+            @DisplayName("InvalidPomoSessionStateException을 던진다")
+            void ItThrowsInvalidPomoSessionStateException() {
+                assertThatThrownBy(() -> pomoSession.pause(currentTimeSeconds))
+                        .isInstanceOf(InvalidPomoSessionStateException.class);
+            }
         }
     }
 }

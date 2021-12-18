@@ -16,7 +16,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Nested
 @DisplayName("PomoSession 클래스의")
 class DescribePomoSessionStart {
-    private final long SECOND_PER_MINUTE = 60;
+    private final long SECONDS_PER_MINUTE = 60;
+    private final long NORMAL_WORK_TIME_MINUTES = 25;
+    private final long DELTA_MINUTES = 10;
 
     private PomoSession pomoSession;
     private Clock clock;
@@ -36,7 +38,7 @@ class DescribePomoSessionStart {
         @BeforeEach
         void setUpStartInfo() {
             startTimeSeconds = clock.currentTimeSeconds();
-            limitMinutes = 25;
+            limitMinutes = NORMAL_WORK_TIME_MINUTES;
         }
 
         @Nested
@@ -47,7 +49,7 @@ class DescribePomoSessionStart {
             @DisplayName("제한시간을 주어진 분 단위 제한시간을 초 단위로 변환한 값으로 수정한다")
             void ItUpdatesLimitSecondsAsGiven() {
                 pomoSession.start(startTimeSeconds, limitMinutes);
-                long limitSeconds = limitMinutes * SECOND_PER_MINUTE;
+                long limitSeconds = limitMinutes * SECONDS_PER_MINUTE;
                 assertThat(pomoSession.getLimitSeconds()).isEqualTo(limitSeconds);
             }
 
@@ -93,19 +95,21 @@ class DescribePomoSessionStart {
         @Nested
         @DisplayName("세션의 상태가 일시정지 상태일 때")
         class ContextWhenSessionStateIsPaused {
+            private long currentTimeSeconds;
 
-//            @BeforeEach
-//            void setUpPausedState() {
-//                pomoSession.start();
-//                pomoSession.paused();
-//            }
+            @BeforeEach
+            void setUpPausedState() {
+                currentTimeSeconds = startTimeSeconds + DELTA_MINUTES * SECONDS_PER_MINUTE;
+                pomoSession.start(startTimeSeconds, limitMinutes);
+                pomoSession.pause(currentTimeSeconds);
+            }
 
-//            @Test
-//            @DisplayName("InvalidPomoSessionStateException을 던진다")
-//            void ItThrowsInvalidPomoSessionStateException() {
-//                assertThatThrownBy(() -> pomoSession.start(startTimeSeconds, limitMinutes))
-//                        .isInstanceOf(InvalidPomoSessionStateException.class);
-//            }
+            @Test
+            @DisplayName("InvalidPomoSessionStateException을 던진다")
+            void ItThrowsInvalidPomoSessionStateException() {
+                assertThatThrownBy(() -> pomoSession.pause(currentTimeSeconds))
+                        .isInstanceOf(InvalidPomoSessionStateException.class);
+            }
         }
     }
 }
