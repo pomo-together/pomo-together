@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Nested
-@DisplayName("PomoSession 클래스의")
+@DisplayName("PomoSession 클래스의 pause 메소드는")
 class DescribePomoSessionPause {
     private final long NORMAL_WORK_TIME_MINUTES = 25;
     private final long SECONDS_PER_MINUTE = 60;
@@ -30,7 +30,6 @@ class DescribePomoSessionPause {
     }
 
     @Nested
-    @DisplayName("pause 메소드는")
     class DescribePause {
         private long startTimeSeconds;
         private long limitMinutes;
@@ -80,35 +79,35 @@ class DescribePomoSessionPause {
                 assertThat(pomoSession.getSessionState()).isEqualTo(SessionState.PAUSED);
             }
 
-//            @Nested
-//            @DisplayName("이전에 한번 일시정지에서 재개된 세션이라면")
-//            class ContextWithResumedSession {
-//                private long oneMorePausedSeconds;
-//                private long previousElapsedSeconds;
+            @Nested
+            @DisplayName("이전에 한번 일시정지에서 재개된 세션이라면")
+            class ContextWithResumedSession {
+                private long oneMorePausedSeconds;
+                private long previousElapsedSeconds;
 
-//                @BeforeEach
-//                void setUpResumedSession() {
-//                    oneMorePausedSeconds = currentTimeSeconds + DELTA_MINUTES * SECONDS_PER_MINUTE;
-//                    pomoSession.pause(currentTimeSeconds);
-//                    previousElapsedSeconds = pomoSession.getElapsedSeconds();
-//                    pomoSession.resume(currentTimeSeconds);
-//                }
-//
-//                @Test
-//                @DisplayName("세션의 경과시간을 이전에 계산했던 경과시간과 합친다")
-//                void ItCalculatesElapsedTime() {
-//                    pomoSession.pause(oneMorePausedSeconds);
-//                    long expected = previousElapsedSeconds + oneMorePausedSeconds - currentTimeSeconds;
-//                    assertThat(pomoSession.getElapsedSeconds()).isEqualTo(expected);
-//                }
-//
-//                @Test
-//                @DisplayName("세션의 상태를 일시정지 상태로 수정한다")
-//                void ItUpdatesSessionStateAsPaused() {
-//                    pomoSession.pause(oneMorePausedSeconds);
-//                    assertThat(pomoSession.getSessionState()).isEqualTo(SessionState.PAUSED);
-//                }
-//            }
+                @BeforeEach
+                void setUpResumedSession() {
+                    oneMorePausedSeconds = currentTimeSeconds + DELTA_MINUTES * SECONDS_PER_MINUTE;
+                    pomoSession.pause(currentTimeSeconds);
+                    previousElapsedSeconds = pomoSession.getElapsedSeconds();
+                    pomoSession.resume(currentTimeSeconds);
+                }
+
+                @Test
+                @DisplayName("세션의 경과시간을 이전에 계산했던 경과시간과 합친다")
+                void ItCalculatesElapsedTime() {
+                    pomoSession.pause(oneMorePausedSeconds);
+                    long expected = previousElapsedSeconds + oneMorePausedSeconds - currentTimeSeconds;
+                    assertThat(pomoSession.getElapsedSeconds()).isEqualTo(expected);
+                }
+
+                @Test
+                @DisplayName("세션의 상태를 일시정지 상태로 수정한다")
+                void ItUpdatesSessionStateAsPaused() {
+                    pomoSession.pause(oneMorePausedSeconds);
+                    assertThat(pomoSession.getSessionState()).isEqualTo(SessionState.PAUSED);
+                }
+            }
         }
 
         @Nested
