@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Nested
-@DisplayName("PomoSession 클래스의")
+@DisplayName("PomoSession 클래스의 finish 메소드는")
 class DescribePomoSessionFinish {
     private final long NORMAL_WORK_TIME_MINUTES = 25;
     private final long SECONDS_PER_MINUTE = 60;
@@ -32,7 +32,6 @@ class DescribePomoSessionFinish {
     }
 
     @Nested
-    @DisplayName("finish 메소드는")
     class DescribeFinish {
         private long startTimeSeconds;
         private long limitMinutes;

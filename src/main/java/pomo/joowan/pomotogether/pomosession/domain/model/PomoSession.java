@@ -75,6 +75,11 @@ public class PomoSession {
     }
 
     public void resume(long currentTimeSeconds) {
+        if (this.sessionState != SessionState.PAUSED) {
+            throw new InvalidPomoSessionStateException();
+        }
 
+        this.startTimeSeconds = currentTimeSeconds;
+        this.sessionState = SessionState.WORKING;
     }
 }
